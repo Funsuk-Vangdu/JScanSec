@@ -14,26 +14,20 @@ public class Main {
         System.out.print("Enter choice (1, 2, 3 or 4): ");
 
         int choice = scanner.nextInt();
-        scanner.nextLine(); // clear buffer
+        scanner.nextLine();
 
-        ForensicAnalyzer analyzer;
+        ForensicAnalyzer analyzer = null;
 
         switch (choice) {
-            case 1 -> {
-                analyzer = new LogAnalyzer();
-                analyzer.analyze();
-            }
-            case 2 -> {
-                analyzer = new MetadataExtractor();
-                analyzer.analyze();
-            }
-            case 3 -> {
-                PortScanner.main(new String[0]);  // directly call PortScanner
-            }
-            case 4 -> {
-                WebVulnerabilityScanner.main(new String[0]); // call vulnerability scanner
-            }
+            case 1 -> analyzer = new LogAnalyzer();
+            case 2 -> analyzer = new MetadataExtractor();
+            case 3 -> analyzer = new PortScanner();
+            case 4 -> analyzer = new WebVulnerabilityScanner();
             default -> System.out.println("Invalid choice.");
+        }
+
+        if (analyzer != null) {
+            analyzer.analyze();
         }
 
         scanner.close();
