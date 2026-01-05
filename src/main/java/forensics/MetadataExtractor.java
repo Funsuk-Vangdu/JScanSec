@@ -2,22 +2,24 @@ package forensics;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import forensics.ForensicAnalyzer;
+import java.io.InputStream;
 
 public class MetadataExtractor implements ForensicAnalyzer {
+
     @Override
     public void analyze() {
         System.out.println("📸 Extracting image metadata...");
 
-        try {
-            File file = new File("src/main/resources/sample_image.jpg");
-            if (!file.exists()) {
+        try (InputStream is = getClass()
+                .getClassLoader()
+                .getResourceAsStream("sample_image.jpg")) {
+
+            if (is == null) {
                 System.out.println("❌ sample_image.jpg not found!");
                 return;
             }
 
-            BufferedImage image = ImageIO.read(file);
+            BufferedImage image = ImageIO.read(is);
             if (image != null) {
                 System.out.println("📏 Width: " + image.getWidth() + " px");
                 System.out.println("📐 Height: " + image.getHeight() + " px");
